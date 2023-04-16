@@ -150,19 +150,23 @@ SimpleUniverse simpleU;
         grupoGiro.setCapability(TransformGroup.ALLOW_TRANSFORM_READ); //de objGiro en tiempo de ejecucion. De lectura y escritura
         BranchGroup objPrincipal = new BranchGroup();
         
+        //------------------------------------------------------------------------------------------------------------------------------------->
         
-        
+        //se crea la luz ambiente
         Color3f colorAmbiente = new Color3f(Color.DARK_GRAY);
         AmbientLight luzAmbiente = new AmbientLight(colorAmbiente);
         luzAmbiente.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),100));
         
+        //se crea la luz que se reflejara
         Color3f colorLuz = new Color3f(Color.WHITE);
         Vector3f dirLuz = new Vector3f(-.6f,-.6f,-.6f);
         DirectionalLight luz = new DirectionalLight(colorLuz,dirLuz);
         luz.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),100));
         
-        objPrincipal.addChild(luzAmbiente);
+        objPrincipal.addChild(luzAmbiente);//se agrega al branch
         objPrincipal.addChild(luz);
+        
+        //---------------------------------------------------------------------------------------------------------------------------------------->
         
          Trailer ac=new Trailer();
              
@@ -429,12 +433,13 @@ SimpleUniverse simpleU;
                 };
 
                 GeometryInfo gi = new GeometryInfo(GeometryInfo.TRIANGLE_ARRAY);
+                
                 gi.setCoordinates(vertices);
                 gi.setCoordinateIndices(indices);
                 NormalGenerator ng = new NormalGenerator();
                 ng.generateNormals(gi);
-
-                Shape3D pentagono = new Shape3D(gi.getGeometryArray(),tomarTextura(0));
+                  //-------------------------------------------------------------------------------------------------------------->
+                Shape3D pentagono = new Shape3D(gi.getGeometryArray(),tomarTextura(0));//en esta line se agrega la textura con las luces correspondientes
 
                 giro.addChild(pentagono);
                 Transform3D escala = new Transform3D();               
@@ -456,8 +461,9 @@ SimpleUniverse simpleU;
           // Crear el grupo de transformación
         TransformGroup giro = new TransformGroup();
         // Crear el cubo
+        
+        
         Box box = new Box(0.01f, 0.05f, 0.35f, Box.GENERATE_NORMALS, app(1));
-
         // Agregar el cubo al grupo de transformación
         giro.addChild(box);
 
@@ -1802,15 +1808,10 @@ SimpleUniverse simpleU;
             giro.setTransform(translation);        
             return giro;
 }
-              public Appearance tomarTextura(int i){
+              public Appearance tomarTextura(int i){//------------------------------------------------metodo para agregar las luces y las sombras
           
-       // TextureAttributes atributosTextura = new TextureAttributes();
-       // atributosTextura.setTextureMode(TextureAttributes.REPLACE);
-  
-          //Texture textura = texturas[i].getTexture();
-         // System.out.println(textura.getEnable());
-          
-          Material material = new Material();
+      
+          Material material = new Material();//material
       material.setAmbientColor(new Color3f(Color.DARK_GRAY));
       material.setDiffuseColor(new Color3f(Color.GREEN));
       material.setSpecularColor(new Color3f(Color.WHITE));
@@ -1820,13 +1821,13 @@ SimpleUniverse simpleU;
         
         /*Para dar apariencia*/
         Appearance apariencia = new Appearance();
-        //apariencia.setTexture(textura);
+       
         apariencia.setMaterial(material);
-        //apariencia.setTextureAttributes(atributosTextura);
+      
         
         return apariencia;
     } 
-                
+      //--------------------------------------------------------------------------------------------------------------------------------->          
      Appearance app(int i){
       Appearance apariencia=new Appearance();
       TexCoordGeneration texCoord=new TexCoordGeneration(
