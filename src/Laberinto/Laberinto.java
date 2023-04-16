@@ -35,9 +35,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Material;
 import javax.media.j3d.TexCoordGeneration;
@@ -368,9 +370,24 @@ SimpleUniverse simpleU;
         return true;
 }
      private TransformGroup CrearPentagono() {
+         
+         Color3f colorAmbiente = new Color3f(Color.LIGHT_GRAY);
+        AmbientLight luzAmbiente = new AmbientLight(colorAmbiente);
+        luzAmbiente.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),50));
+        
+        Color3f colorLuz = new Color3f(Color.WHITE);
+        Vector3f dirLuz = new Vector3f(-.1f,-.1f,-.1f);
+        DirectionalLight luz = new DirectionalLight(colorLuz,dirLuz);
+        luz.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),10));
+        
                 TransformGroup giro = new TransformGroup();
                 giro.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE); 
 
+                
+                giro.addChild(luzAmbiente);
+                giro.addChild(luz);
+                
+                
                 Point3f[] vertices = new Point3f[10];
               float radius = 0.6f;
             for (int i = 0; i < 5; i++) {
@@ -410,7 +427,7 @@ SimpleUniverse simpleU;
                 NormalGenerator ng = new NormalGenerator();
                 ng.generateNormals(gi);
 
-                Shape3D pentagono = new Shape3D(gi.getGeometryArray(), app(0));
+                Shape3D pentagono = new Shape3D(gi.getGeometryArray(),tomarTextura(0));
 
                 giro.addChild(pentagono);
                 Transform3D escala = new Transform3D();               
@@ -1778,6 +1795,30 @@ SimpleUniverse simpleU;
             giro.setTransform(translation);        
             return giro;
 }
+              public Appearance tomarTextura(int i){
+          
+        TextureAttributes atributosTextura = new TextureAttributes();
+        atributosTextura.setTextureMode(TextureAttributes.REPLACE);
+  
+          //Texture textura = texturas[i].getTexture();
+         // System.out.println(textura.getEnable());
+          
+          Material material = new Material();
+      material.setAmbientColor(new Color3f(Color.DARK_GRAY));
+      material.setDiffuseColor(new Color3f(Color.GREEN));
+      material.setSpecularColor(new Color3f(Color.WHITE));
+      material.setEmissiveColor(new Color3f(Color.BLACK));
+      material.setShininess(20.0f);
+      
+        
+        /*Para dar apariencia*/
+        Appearance apariencia = new Appearance();
+        //apariencia.setTexture(textura);
+        apariencia.setMaterial(material);
+        //apariencia.setTextureAttributes(atributosTextura);
+        
+        return apariencia;
+    } 
                 
      Appearance app(int i){
       Appearance apariencia=new Appearance();
