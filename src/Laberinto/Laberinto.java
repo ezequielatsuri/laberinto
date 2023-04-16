@@ -150,6 +150,20 @@ SimpleUniverse simpleU;
         grupoGiro.setCapability(TransformGroup.ALLOW_TRANSFORM_READ); //de objGiro en tiempo de ejecucion. De lectura y escritura
         BranchGroup objPrincipal = new BranchGroup();
         
+        
+        
+        Color3f colorAmbiente = new Color3f(Color.DARK_GRAY);
+        AmbientLight luzAmbiente = new AmbientLight(colorAmbiente);
+        luzAmbiente.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),100));
+        
+        Color3f colorLuz = new Color3f(Color.WHITE);
+        Vector3f dirLuz = new Vector3f(-.6f,-.6f,-.6f);
+        DirectionalLight luz = new DirectionalLight(colorLuz,dirLuz);
+        luz.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),100));
+        
+        objPrincipal.addChild(luzAmbiente);
+        objPrincipal.addChild(luz);
+        
          Trailer ac=new Trailer();
              
            
@@ -371,21 +385,14 @@ SimpleUniverse simpleU;
 }
      private TransformGroup CrearPentagono() {
          
-         Color3f colorAmbiente = new Color3f(Color.LIGHT_GRAY);
-        AmbientLight luzAmbiente = new AmbientLight(colorAmbiente);
-        luzAmbiente.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),50));
-        
-        Color3f colorLuz = new Color3f(Color.WHITE);
-        Vector3f dirLuz = new Vector3f(-.1f,-.1f,-.1f);
-        DirectionalLight luz = new DirectionalLight(colorLuz,dirLuz);
-        luz.setInfluencingBounds(new BoundingSphere(new Point3d(0,0,0),10));
+         
         
                 TransformGroup giro = new TransformGroup();
                 giro.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE); 
 
                 
-                giro.addChild(luzAmbiente);
-                giro.addChild(luz);
+                //giro.addChild(luzAmbiente);
+              //  giro.addChild(luz);
                 
                 
                 Point3f[] vertices = new Point3f[10];
@@ -1797,8 +1804,8 @@ SimpleUniverse simpleU;
 }
               public Appearance tomarTextura(int i){
           
-        TextureAttributes atributosTextura = new TextureAttributes();
-        atributosTextura.setTextureMode(TextureAttributes.REPLACE);
+       // TextureAttributes atributosTextura = new TextureAttributes();
+       // atributosTextura.setTextureMode(TextureAttributes.REPLACE);
   
           //Texture textura = texturas[i].getTexture();
          // System.out.println(textura.getEnable());
